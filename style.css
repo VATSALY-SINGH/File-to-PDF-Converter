@@ -5,6 +5,7 @@
 }
 
 body {
+    cursor: none;
     font-family: Arial, sans-serif;
     min-height: 100vh;
     color: white;
@@ -357,3 +358,50 @@ button:disabled {
         width: 100%;
     }
 }
+
+.cursor {
+    width: 35px;
+    height: 35px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    transform: translate(-50%, -50%);
+
+    background: rgba(168, 85, 247, 0.2);
+
+    border: 2px solid #a855f7;
+
+    box-shadow:
+        0 0 10px #a855f7,
+        0 0 25px #9333ea,
+        0 0 45px #7e22ce,
+        0 0 70px rgba(168, 85, 247, 0.5);
+
+    backdrop-filter: blur(2px);
+
+    animation: cursorGlow 1.2s infinite alternate;
+}
+
+@keyframes cursorGlow {
+
+    from {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow:
+            0 0 10px #a855f7,
+            0 0 25px #9333ea,
+            0 0 45px #7e22ce;
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1.15);
+        box-shadow:
+            0 0 20px #c084fc,
+            0 0 40px #a855f7,
