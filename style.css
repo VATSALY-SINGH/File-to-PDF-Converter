@@ -404,3 +404,75 @@ button:disabled {
         box-shadow:
             0 0 20px #c084fc,
             0 0 40px #a855f7,
+.footer {
+    width: 100%;
+
+    margin-top: 100px;
+
+    padding: 60px 20px 30px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    backdrop-filter: blur(12px);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-content {
+    max-width: 1000px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+.footer-content h2 {
+    font-size: 32px;
+
+    margin-bottom: 20px;
+
+    color: white;
+
+    text-shadow:
+        0 0 15px rgba(139, 92, 246, 0.5);
+}
+
+.footer-content p {
+    color: #d1d5db;
+
+    line-height: 1.8;
+
+    font-size: 16px;
+}
+
+.footer-links {
+    margin: 30px 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+}
+
+.footer-links a {
+    text-decoration: none;
+
+    color: white;
+
+    font-size: 17px;
+
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #c4b5fd;
+}
+
+.copyright {
+    margin-top: 25px;
+
+    font-size: 14px;
+
+    color: #9ca3af;
+}
