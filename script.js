@@ -6,155 +6,198 @@ const popupMessage = document.getElementById("popupMessage");
 
 let selectedFile = null;
 
-// Click to select file
-dropArea.addEventListener("click", () => {
-    fileInput.click();
-});
+if (dropArea && fileInput && convertBtn) {
 
-// File selected manually
-fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-        handleFile(fileInput.files[0]);
-    }
-});
+    dropArea.addEventListener("click", () => {
+        fileInput.click();
+    });
 
-// Drag events
-dropArea.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropArea.classList.add("dragover");
-});
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            handleFile(fileInput.files[0]);
+        }
+    });
 
-dropArea.addEventListener("dragleave", () => {
-    dropArea.classList.remove("dragover");
-});
+    dropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropArea.classList.add("dragover");
+    });
 
-dropArea.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropArea.classList.remove("dragover");
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.classList.remove("dragover");
+    });
 
-    if (e.dataTransfer.files.length > 0) {
-        handleFile(e.dataTransfer.files[0]);
-    }
-});
+    dropArea.addEventListener("drop", (e) => {
 
-// Handle file
-function handleFile(file) {
-    // Reject PDF files
-    if (
-        file.type === "application/pdf" ||
-        file.name.toLowerCase().endsWith(".pdf")
-    ) {
-        clearDropArea();
-        showPopup("❌ Invalid file! PDF files are not allowed.");
-        return;
-    }
+        e.preventDefault();
 
-    selectedFile = file;
-    convertBtn.disabled = false;
-    dropArea.querySelector("p").textContent = `✅ ${file.name}`;
-}
+        dropArea.classList.remove("dragover");
 
-// Convert to PDF
-convertBtn.addEventListener("click", async () => {
-    if (!selectedFile) return;
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
+    function handleFile(file) {
 
-    // Text files
-    if (selectedFile.type.startsWith("text/")) {
-        const text = await selectedFile.text();
-        const lines = pdf.splitTextToSize(text, 180);
-        pdf.text(lines, 10, 10);
-        pdf.save(selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf");
+        if (
+            file.type === "application/pdf" ||
+            file.name.toLowerCase().endsWith(".pdf")
+        ) {
 
-        showPopup("✅ PDF created successfully!");
-        clearDropArea();
+            clearDropArea();
+
+            showPopup("❌ Invalid file! PDF files are not allowed.");
+
+            return;
+        }
+
+        selectedFile = file;
+
+        convertBtn.disabled = false;
+
+        dropArea.querySelector("p").textContent =
+            `✅ ${file.name}`;
     }
 
-    // Image files
-    else if (selectedFile.type.startsWith("image/")) {
-        const reader = new FileReader();
+    convertBtn.addEventListener("click", async () => {
 
-        reader.onload = function (e) {
-            const img = new Image();
+        if (!selectedFile) return;
 
-            img.onload = function () {
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                const pageHeight = pdf.internal.pageSize.getHeight();
+        const { jsPDF } = window.jspdf;
 
-                const ratio = Math.min(
-                    pageWidth / img.width,
-                    pageHeight / img.height
-                );
+        const pdf = new jsPDF();
 
-                const width = img.width * ratio;
-                const height = img.height * ratio;
+        if (selectedFile.type.startsWith("text/")) {
 
-                const x = (pageWidth - width) / 2;
-                const y = (pageHeight - height) / 2;
+            const text = await selectedFile.text();
 
-                // Detect image format automatically
-                const format = selectedFile.type.includes("png")
-                    ? "PNG"
-                    : "JPEG";
+            const lines = pdf.splitTextToSize(text, 180);
 
-                pdf.addImage(e.target.result, format, x, y, width, height);
-                pdf.save(
-                    selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf"
-                );
+            pdf.text(lines, 10, 10);
 
-                showPopup("✅ PDF created successfully!");
-                clearDropArea();
+            pdf.save(
+                selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf"
+            );
+
+            showPopup("✅ PDF created successfully!");
+
+            clearDropArea();
+        }
+
+        else if (selectedFile.type.startsWith("image/")) {
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                const img = new Image();
+
+                img.onload = function () {
+
+                    const pageWidth =
+                        pdf.internal.pageSize.getWidth();
+
+                    const pageHeight =
+                        pdf.internal.pageSize.getHeight();
+
+                    const ratio = Math.min(
+                        pageWidth / img.width,
+                        pageHeight / img.height
+                    );
+
+                    const width = img.width * ratio;
+
+                    const height = img.height * ratio;
+
+                    const x = (pageWidth - width) / 2;
+
+                    const y = (pageHeight - height) / 2;
+
+                    const format =
+                        selectedFile.type.includes("png")
+                            ? "PNG"
+                            : "JPEG";
+
+                    pdf.addImage(
+                        e.target.result,
+                        format,
+                        x,
+                        y,
+                        width,
+                        height
+                    );
+
+                    pdf.save(
+                        selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf"
+                    );
+
+                    showPopup("✅ PDF created successfully!");
+
+                    clearDropArea();
+                };
+
+                img.src = e.target.result;
             };
 
-            img.src = e.target.result;
-        };
+            reader.readAsDataURL(selectedFile);
+        }
 
-        reader.readAsDataURL(selectedFile);
+        else {
+
+            const lines = [
+                `File Name: ${selectedFile.name}`,
+                `File Type: ${selectedFile.type || "Unknown"}`,
+                "",
+                "This file type cannot be fully converted in the browser.",
+                "A placeholder PDF has been created instead."
+            ];
+
+            pdf.text(lines, 10, 10);
+
+            pdf.save(
+                selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf"
+            );
+
+            showPopup("✅ PDF created successfully!");
+
+            clearDropArea();
+        }
+    });
+
+    function clearDropArea() {
+
+        selectedFile = null;
+
+        fileInput.value = "";
+
+        convertBtn.disabled = true;
+
+        dropArea.querySelector("p").textContent =
+            "📂 Drop Your File Here";
     }
 
-    // Other files
-    else {
-        const lines = [
-            `File Name: ${selectedFile.name}`,
-            `File Type: ${selectedFile.type || "Unknown"}`,
-            "",
-            "This file type cannot be fully converted in the browser.",
-            "A placeholder PDF has been created instead."
-        ];
+    function showPopup(message) {
 
-        pdf.text(lines, 10, 10);
-        pdf.save(selectedFile.name.replace(/\.[^/.]+$/, "") + ".pdf");
+        popupMessage.textContent = message;
 
-        showPopup("✅ PDF created successfully!");
-        clearDropArea();
+        popup.classList.remove("hidden");
     }
-});
 
-// Clear drop area after conversion
-function clearDropArea() {
-    selectedFile = null;
-    fileInput.value = "";
-    convertBtn.disabled = true;
-    dropArea.querySelector("p").textContent = "📂 Drop Your File Here";
-}
-
-// Popup functions
-function showPopup(message) {
-    popupMessage.textContent = message;
-    popup.classList.remove("hidden");
-}
-
-function closePopup() {
-    popup.classList.add("hidden");
+    window.closePopup = function () {
+        popup.classList.add("hidden");
+    };
 }
 
 const cursor = document.querySelector(".cursor");
 
 document.addEventListener("mousemove", (e) => {
 
-    cursor.style.left = e.clientX + "px";
-    cursor.style.top = e.clientY + "px";
+    if (cursor) {
+
+        cursor.style.left = e.clientX + "px";
+
+        cursor.style.top = e.clientY + "px";
+    }
 
 });
