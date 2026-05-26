@@ -4,37 +4,126 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="7lNfhougJrLrwSI4UZjyNfle2gsdVlMCyVOSy1PJgqA" />
-    <title>File to PDF Converter</title>
-    <link rel="stylesheet" href="style.css" />
+
+    <!-- SEO -->
+    <title>Free PDF Builder Online | Convert Files to PDF</title>
+
+    <meta name="description"
+        content="Free online PDF builder tool. Convert images and files into PDF instantly. Fast secure and easy to use PDF converter.">
+
+    <meta name="keywords"
+        content="PDF builder, PDF converter, image to PDF, file to PDF, online PDF maker, free PDF tool">
+
+    <meta name="author" content="Vatsaly Singh">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free PDF Builder Online">
+    <meta property="og:description" content="Convert files and images into PDF instantly online.">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="icon.png">
 
-    <!-- jsPDF Library -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
-    <!-- RIGHT SIDE : PDF CONVERTER -->
-    <div class="container">
-        <h1>📄 File to PDF Converter</h1>
-        <p>Drag and drop a text file or image here</p>
 
-        <div id="dropArea" class="drop-area">
-            <p>📂 Drop Your File Here</p>
-            <input type="file" id="fileInput" hidden>
+    <!-- HEADER -->
+    <header>
+
+        <div class="logo">
+            PDF Builder
         </div>
 
-        <button id="convertBtn" disabled>Convert to PDF</button>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Tools</a>
+            <a href="#">Contact</a>
+        </nav>
 
-        <div id="popup" class="popup hidden">
-            <div class="popup-content">
-                <p id="popupMessage"></p>
-                <button onclick="closePopup()">OK</button>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-section">
+
+        <div class="container">
+
+            <h1 class="glow-text">
+                📄 Free PDF Builder
+            </h1>
+
+            <p class="subtitle">
+                Convert Images & Files into PDF Instantly
+            </p>
+
+            <div id="dropArea" class="drop-area">
+
+                <p>
+                    📂 Drop Your File Here
+                </p>
+
+                <span>
+                    Click or Drag & Drop
+                </span>
+
+                <input type="file" id="fileInput" hidden>
+
             </div>
+
+            <button id="convertBtn" disabled>
+                Convert to PDF
+            </button>
+
         </div>
+
+    </section>
+
+    <!-- SEO CONTENT -->
+    <section class="seo-section">
+
+        <h2>
+            Best Free Online PDF Converter
+        </h2>
+
+        <p>
+            Our free PDF builder helps you convert images and files into high-quality PDFs instantly.
+            Easy to use, secure and fast online PDF converter.
+        </p>
+
+        <h2>
+            How to Convert Files to PDF
+        </h2>
+
+        <p>
+            Upload your file, click convert and download your PDF in seconds.
+            No signup required.
+        </p>
+
+    </section>
+
+    <!-- POPUP -->
+    <div id="popup" class="popup hidden">
+
+        <div class="popup-content">
+
+            <p id="popupMessage"></p>
+
+            <button onclick="closePopup()">
+                OK
+            </button>
+
+        </div>
+
     </div>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>
