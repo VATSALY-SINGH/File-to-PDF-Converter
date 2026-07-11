@@ -1,3 +1,4 @@
+// Cursor following glow logic (lerped and GPU-accelerated) - Runs globally on all pages
 (function initCursor() {
     const cursor = document.querySelector(".cursor");
     if (cursor) {
@@ -28,6 +29,7 @@
     }
 })();
 
+// Main converter tools logic - runs only on pages containing the drop area / converter UI
 const dropArea = document.getElementById("dropArea");
 const fileInput = document.getElementById("fileInput");
 const convertBtn = document.getElementById("convertBtn");
