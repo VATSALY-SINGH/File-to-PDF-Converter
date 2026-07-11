@@ -40,7 +40,6 @@
             </div>
             
             <!-- Download Button -->
-            <!-- Updated URL to target your specific file and force direct PPTX download -->
             <a href="https://docs.google.com/presentation/d/182fSPk_GmqgW4HJ1gNYO903Xq8zQjDb9/export/pptx" 
                class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                 <i data-lucide="download" class="w-4 h-4"></i>
@@ -55,9 +54,9 @@
                 <i data-lucide="loader-2" class="w-6 h-6 text-gray-400 animate-spin"></i>
             </div>
             
-            <!-- Updated src URL with your document ID set to embed mode -->
+            <!-- FIXED: Changed from /presentation/d/.../embed to /file/d/.../preview to support PowerPoint files -->
             <iframe 
-                src="https://docs.google.com/presentation/d/182fSPk_GmqgW4HJ1gNYO903Xq8zQjDb9/embed?start=false&loop=false&delayms=3000" 
+                src="https://drive.google.com/file/d/182fSPk_GmqgW4HJ1gNYO903Xq8zQjDb9/preview" 
                 frameborder="0" 
                 width="100%" 
                 height="100%" 
